@@ -36,16 +36,23 @@ if os.path.isdir('Data'):
 else:
     os.mkdir('Data')
 
-i=0
 start = time.time()
-for url in urls:
-    file = requests.get(url)
-    filename = re.sub('http.*/','',url)
-    open('Data/'+filename,'wb').write(file.content)
-    if (i%100 == 0) and (i != 0):
-        end = time.time()
-        elpsd = end - start
-        print(str(i) + ' out of ' + str(len(urls)))
-        print('Elapsed time to download ' + str(i) + ' pdfs: ' + str(elpsd) + 's')
-    i+=1
-    time.sleep(0.1)
+for i, url in enumerate(urls):
+    # Attempts to download link 3 times
+    try:
+        file = requests.get(url)
+    except Exception as err:
+        # Logs failed downloads
+        print(err)
+        with open("failed_downloads.txt", "a") as wf:
+            wf.write(f"NUMBER: {i}. URL:{url}\n")
+    else:
+        # Writes data if download is successful
+        filename = re.sub('http.*/','',url)
+        open('Data/'+filename,'wb').write(file.content)
+        if (i%100 == 0) and (i != 0):
+            end = time.time()
+            elpsd = end - start
+            print(str(i) + ' out of ' + str(len(urls)))
+            print('Elapsed time to download ' + str(i) + ' pdfs: ' + str(elpsd) + 's')
+        time.sleep(0.1)

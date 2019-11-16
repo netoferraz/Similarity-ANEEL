@@ -16,12 +16,18 @@ df = df.loc[df['Situação'] == 'NÃO CONSTA REVOGAÇÃO EXPRESSA']
 #checks the kinds of legal texts
 df['Tipo'] = df.Norma.apply(lambda x: x[:3])
 
-#I want to keep this kinds: [PRC, PRE, PRI, PRT, REA, REH, REN, REO, RES]
 kinds = list(df.Tipo)
-kinds_tokeep = ['PRC', 'PRE', 'PRI', 'PRT', 'REA', 'REH', 'REN', 'REO','RES']
+kinds_tokeep = ['REN','RES']
 idxs = [kinds[i] in kinds_tokeep for i in range(len(kinds))]
 df = df.loc[idxs]
 
+#adds the name of the downloaded pdf
+df['Filename'] = df['Texto Integral'].apply(lambda x: re.sub(r'http.*/','',x))
+
+#deletes columns of unique values
+del df['Material'], df['Esfera'], df['Situação']
+
+#saves the filtered csv
 df.to_csv('scraping_filtered.csv',index=False)
 
 print('Total number of norms to download: ' + str(df.shape[0]))

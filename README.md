@@ -19,4 +19,9 @@ We're using fastai.
 
 **scraping_filtered.csv**: csv file with only the useful texts. This csv file has something like 1500 lines.
 
+
+**LM_csv_File_Creation.py**: this script reads the downloaded pdfs and writes them into a new csv, 'LanguageModelFile.csv' which is the csv that we are going to use to fine tune the language model.
+
+**LanguageModelFile.csv**: csv file with the texts and all information from the norms that are useful to us.
+
 **get_reps.ipynb**: this is the notebook used to train a language model and to extract the vector representation of each useful text.

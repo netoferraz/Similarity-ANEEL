@@ -17,7 +17,7 @@ df = df.loc[df['Situação'] == 'NÃO CONSTA REVOGAÇÃO EXPRESSA']
 df['Tipo'] = df.Norma.apply(lambda x: x[:3])
 
 kinds = list(df.Tipo)
-kinds_tokeep = ['REN','RES']
+kinds_tokeep = ['REN','RES','INA']
 idxs = [kinds[i] in kinds_tokeep for i in range(len(kinds))]
 df = df.loc[idxs]
 
@@ -27,7 +27,7 @@ df['Filename'] = df['Texto Integral'].apply(lambda x: re.sub(r'http.*/','',x))
 #deletes columns of unique values
 del df['Material'], df['Esfera'], df['Situação']
 
-#saves the filtered csv
+#saves the filtered csvs
 df.to_csv('scraping_filtered.csv',index=False)
 
 print('Total number of norms to download: ' + str(df.shape[0]))

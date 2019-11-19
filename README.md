@@ -25,3 +25,7 @@ We're using fastai.
 **LanguageModelFile.csv**: csv file with the texts and all information from the norms that are useful to us.
 
 **get_reps.ipynb**: this is the notebook used to train a language model and to extract the vector representation of each useful text.
+
+**X_LM.npy**: this is a file that contains the vector representation for each text in 'LanguageModelFile.csv'.
+
+**most_similar.py**: this script gets the K most similars texts to a given text.

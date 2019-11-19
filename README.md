@@ -1,5 +1,5 @@
 # About the project
-This is a project done by members of the IEEE-CIS UnB student chapter. Here we want to build a deep learning ṕowered search engine to help the management and consulting of legal texts. Specifically in this work, we are dealing with legal texts from ANEEL, a brazilian electricity regulatory agency.
+This is a project done by members of the IEEE-CIS UnB student chapter, [O Grupo de IA da UnB](http://medium.com/ieeecisunb) . Here we want to build a deep learning ṕowered search engine to help the management and consulting of legal texts. Specifically in this work, we are dealing with legal texts from ANEEL, a brazilian electricity regulatory agency.
 
 The basic idea here is to get the vector representation, calculated by the encoder of the trained language model, and use cosine similarity to see what are de k most similar texts to a given text.
 
@@ -11,7 +11,7 @@ We're using fastai.
 
 # Describing each file in this repo:
 
-**scraping.py**: this script does the scraping of the data we need. It consults the website http://biblioteca.aneel.gov.br/index.html and gets info about all the available texts.
+**scraping.py**: this script does the scraping of the data we need. It consults the [website](http://biblioteca.aneel.gov.br/index.html) and gets info about all the available texts.
 
 **scraping.csv**: this is the csv file created by scraping.py. It has more than 100K lines.
 

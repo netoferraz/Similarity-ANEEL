@@ -55,4 +55,4 @@ def getKSimilarTexts(norma:str,assunto=None, k=None):
     #import pdb; pdb.set_trace()
     return normas,ementas,similarity,out
 
-normas,ementas,similarity,out = getKSimilarTexts('REN - RESOLUÇÃO NORMATIVA 046/2004',k=10)
+print(getKSimilarTexts('RES - RESOLUÇÃO CONJUNTA 005/2016',k=10))

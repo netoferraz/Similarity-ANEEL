@@ -9,7 +9,16 @@ from sklearn.decomposition import TruncatedSVD
 
 def getKSimilarTexts(norma:str,assunto=None, k=None):
 
+    data = pd.read_csv('LanguageModelFile.csv',sep='|',encoding='utf-8',index_col=False)
+    data = data.dropna()
+    del data['Unnamed: 0']
+    idxs = data.Tipo != 'RES'
+    data = (data.loc[idxs]).reset_index()
+    #import pdb; pdb.set_trace()
+    assuntos = np.unique(data.Assuntos)
+
     X = np.load('X_LM.npy')
+    X = X[idxs]
 
     #All features with 0 mean and std 1
     X = preprocessing.scale(X)
@@ -19,10 +28,6 @@ def getKSimilarTexts(norma:str,assunto=None, k=None):
         Xi = X[i,:]
         X[i,:] = Xi/(np.sum(Xi**2)**0.5)
 
-    data = pd.read_csv('LanguageModelFile.csv',sep='|',encoding='utf-8',index_col=False)
-    data = data.dropna()
-    assuntos = np.unique(data.Assuntos)
-
 
     idx = np.where(data.Norma==norma)[0]
     if len(idx)==0:
@@ -30,6 +35,7 @@ def getKSimilarTexts(norma:str,assunto=None, k=None):
         return
 
     X_n = X[idx]
+    if X_n.shape[0] == 2: import pdb; pdb.set_trace()
     aux = np.zeros(X.shape) + X_n
     similarity = np.sum(aux*X,axis=1)
 
@@ -39,12 +45,13 @@ def getKSimilarTexts(norma:str,assunto=None, k=None):
         data = data.loc[data.Assuntos==assunto].reset_index()
         del data['index']
         if data.shape[0]==0:
-            print('Não encontramos o macrotema solicitado. Lista de macrotemas disponíveis:')
+            print('Não encontramos o assunto solicitado. Lista de assuntos disponíveis:')
             print(assuntos)
             return
-
     if k==None: k = len(similarity)
     idxs_max = similarity.argsort()[-k:][::-1]
+    #idxs_max = idxs_max[1:]
+    #import pdb; pdb.set_trace()
     out = data.loc[idxs_max]
     normas = list(out.Norma)
     ementas = list(out.Ementa)
@@ -55,4 +62,5 @@ def getKSimilarTexts(norma:str,assunto=None, k=None):
     #import pdb; pdb.set_trace()
     return normas,ementas,similarity,out
 
-print(getKSimilarTexts('RES - RESOLUÇÃO CONJUNTA 005/2016',k=10))
+normas,ementas,similarity,out = getKSimilarTexts('REN - RESOLUÇÃO NORMATIVA 317/2008',k=10)
+import pdb; pdb.set_trace()

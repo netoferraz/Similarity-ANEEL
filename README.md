@@ -29,3 +29,7 @@ We're using fastai.
 **X_LM.npy**: this is a file that contains the vector representation for each text in 'LanguageModelFile.csv'.
 
 **most_similar.py**: this script gets the K most similars texts to a given text.
+
+**MultiFit_ANEEL.ipynb**: notebook to get the vector representations calculated by the MULTIFIT language model pre-trained in the portuguese wikipedia.
+
+**app.py**: file that creates the app. To use it you have to install dash (pip install dash==1.6.1) and type 'python app.py' in your terminal

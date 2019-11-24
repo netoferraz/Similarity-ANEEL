@@ -9,7 +9,8 @@ import numpy as np
 import pickle
 from sklearn import preprocessing
 from dash.exceptions import PreventUpdate
-
+#You have to install this package in order to be able to run the app
+#pip install dash==1.6.1
 
 data = pd.read_csv('LanguageModelFile.csv',sep='|',encoding='utf-8',index_col=False)
 X = np.load('X_LM.npy')

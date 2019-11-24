@@ -62,5 +62,8 @@ def getKSimilarTexts(norma:str,assunto=None, k=None):
     #import pdb; pdb.set_trace()
     return normas,ementas,similarity,out
 
-normas,ementas,similarity,out = getKSimilarTexts('REN - RESOLUÇÃO NORMATIVA 317/2008',k=10)
+#normas,ementas,similarity,out = getKSimilarTexts('REN - RESOLUÇÃO NORMATIVA 482/2012',k=10)
+#normas,ementas,similarity,out = getKSimilarTexts('REN - RESOLUÇÃO NORMATIVA 414/2010',k=10)
+normas,ementas,similarity,out = getKSimilarTexts('REN - RESOLUÇÃO NORMATIVA 063/2004',k=10)
+
 import pdb; pdb.set_trace()

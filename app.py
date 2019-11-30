@@ -4,7 +4,7 @@ import dash_html_components as html
 import dash_table
 from dash.dependencies import Input, Output, State
 import pandas as pd
-import bib
+#import bib
 import numpy as np
 import pickle
 from sklearn import preprocessing
@@ -26,41 +26,55 @@ for i,orgao in enumerate(orgaos_list):
     orgaos_dict.append({'label':orgao,'value':orgao})
 
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://drive.google.com/uc?export=download&id=1UcwWovPkD6QAtC5N_-k3PfW8u8V3uZzV']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div([
 
     html.Div([
-        html.H1(
+        html.Header(
             children='Mecanismo de Busca de Normas Similares',
             style={
-                'textAlign':'center',
-                'color':'white',
-                'backgroundColor': '#6c7e97'
+                'alignItems':'center',
+                'justifyContent':'center',
+                'display':'flex',
+                'fontSize':'48px',
+                'color':'#4ecca3',
+                'backgroundColor': '#393e46'
             }
         )
     ]),
 
     html.Div([
 
-        html.Label('Selecione aqui a norma desejada'),
+        html.Label('Selecione aqui a norma desejada',style={
+            'color':'#fff',
+            'fontSize':'32px'
+        }),
         dcc.Dropdown(
             id = 'select-norm',
             options= normas_dict),
 
-        html.Label('Selecione aqui a o órgão da norma'),
+        html.Label('Selecione aqui o órgão da norma',style={
+            'color':'#fff',
+            'fontSize':'32px'}
+        ),
         dcc.Dropdown(
             id = 'select-orgao',
             options= orgaos_dict),
 
-        html.Label('Indique o número de normas de ouput'),
+        html.Label('Indique o número de normas de output',style={
+            'color':'#fff',
+            'fontSize':'32px'}),
         dcc.Input(id='n_normas',type='text',value='10'),
 
         html.Button('Buscar',id='button'),
 
-        html.Label('Tabela'),
+        html.Label('',style={
+            'color':'#fff',
+            'fontSize':'20px'
+        }),
         dash_table.DataTable(
             id='table',
             columns = [
@@ -71,22 +85,32 @@ app.layout = html.Div([
             data = [],
             style_data = {
                 'whiteSpace':'normal',
-                'height':'auto'},
+                'height':'auto',
+                'backgroundColor': '#393e46',
+                'fontSize':'26px'
+                },
             style_table={
                 'maxHeight': '370px',
-                'maxWidth': '700px',
-                'overflowY': 'scroll',
-                'overflowX': 'scroll'},
+                'maxWidth': '900px',
+                'overflowY': 'auto',
+                'color':'#fff',
+                'overflowX': 'auto'},
              style_cell={'textAlign': 'left'},
              style_header={
-                'backgroundColor':'#6c7e97',
+                'backgroundColor':'#eeeeee',
+                'textAlign':'center',
                 'fontWeight':'bold',
-                'color':'white'},
+                'fontSize':'26px',
+                'color':'#303030'},
             style_data_conditional=[{
                 'if': {'row_index': 'odd'},
-                'backgroundColor': 'rgb(248, 248, 248)'}]
+                'backgroundColor': '#393e46'},]
         )
-    ]),
+    ],
+        style={
+            'padding':'20px',
+        }    
+    ),
 ])
 
 @app.callback(

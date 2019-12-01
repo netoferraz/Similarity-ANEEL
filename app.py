@@ -104,7 +104,13 @@ def getKSimilarTexts(n_clicks,norma,orgao,k):
     k = int(k)
     #import pdb; pdb.set_trace()
     data = pd.read_csv('LanguageModelFile.csv',sep='|',encoding='utf-8',index_col=False)
+    data = data.dropna()
+    del data['Unnamed: 0']
+    idxs = data.Tipo != 'RES'
+    data = (data.loc[idxs]).reset_index()
+
     X = np.load('X_LM.npy')
+    X = X[idxs]
 
     #All features with 0 mean and std 1
     X = preprocessing.scale(X)

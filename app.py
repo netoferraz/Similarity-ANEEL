@@ -11,7 +11,7 @@ from dash.exceptions import PreventUpdate
 #You have to install this package in order to be able to run the app
 #pip install dash==1.6.1
 
-df = pd.read_csv('LanguageModelFile.csv',sep='|',encoding='utf-8',index_col=False)
+df = pd.read_csv('interesting_norms.csv',sep='|',encoding='utf-8')
 X = np.load('X_LM.npy')
 normas_list = list(df.Norma)
 orgaos_list = list(df['Órgão de origem'].unique())
@@ -107,15 +107,9 @@ def getKSimilarTexts(n_clicks,norma,orgao,k):
 
     k = int(k)
     #import pdb; pdb.set_trace()
-    data = pd.read_csv('LanguageModelFile.csv',sep='|',encoding='utf-8',index_col=False)
-    data = data.dropna()
-    del data['Unnamed: 0']
-    idxs = data.Tipo != 'RES'
-    data = (data.loc[idxs]).reset_index()
-    del data['index']
+    data = pd.read_csv('interesting_norms.csv',sep='|',encoding='utf-8')
 
     X = np.load('X_LM.npy')
-    X = X[idxs]
 
     #All features with 0 mean and std 1
     X = preprocessing.scale(X)

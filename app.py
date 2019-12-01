@@ -11,10 +11,10 @@ from dash.exceptions import PreventUpdate
 #You have to install this package in order to be able to run the app
 #pip install dash==1.6.1
 
-data = pd.read_csv('LanguageModelFile.csv',sep='|',encoding='utf-8',index_col=False)
+df = pd.read_csv('LanguageModelFile.csv',sep='|',encoding='utf-8',index_col=False)
 X = np.load('X_LM.npy')
-normas_list = list(data.Norma)
-orgaos_list = list(data['Órgão de origem'].unique())
+normas_list = list(df.Norma)
+orgaos_list = list(df['Órgão de origem'].unique())
 
 normas_dict = []
 for i,norma in enumerate(normas_list):
@@ -44,26 +44,27 @@ app.layout = html.Div([
 
     html.Div([
 
-        html.Label('Selecione aqui a norma desejada'),
+        html.Label('Selecione aqui a norma desejada:'),
         dcc.Dropdown(
             id = 'select-norm',
             options= normas_dict),
 
-        html.Label('Selecione aqui a o órgão da norma'),
+        html.Label('Selecione aqui a o órgão da norma:'),
         dcc.Dropdown(
             id = 'select-orgao',
             options= orgaos_dict),
 
-        html.Label('Indique o número de normas de ouput'),
+        html.Label('Indique o número de normas a serem mostradas:'),
         dcc.Input(id='n_normas',type='text',value='10'),
 
         html.Button('Buscar',id='button'),
 
-        html.Label('Tabela'),
+        html.Label('\n'),
         dash_table.DataTable(
             id='table',
             columns = [
                 {'name':'Norma','id':'Norma'},
+                {'name':'Similaridade','id':'Similaridade'},
                 {'name':'Ementa','id':'Ementa'},
                 {'name':'Link','id':'Link'}],
             #fixed_rows={ 'headers': True},
@@ -73,7 +74,7 @@ app.layout = html.Div([
                 'height':'auto'},
             style_table={
                 'maxHeight': '370px',
-                'maxWidth': '700px',
+                #'maxWidth': '700px',
                 'overflowY': 'scroll',
                 'overflowX': 'scroll'},
              style_cell={'textAlign': 'left'},
@@ -83,7 +84,10 @@ app.layout = html.Div([
                 'color':'white'},
             style_data_conditional=[{
                 'if': {'row_index': 'odd'},
-                'backgroundColor': 'rgb(248, 248, 248)'}]
+                'backgroundColor': 'rgb(248, 248, 248)'},
+                {'if': {'column_id':'Similaridade'},
+                'textAlign':'center'}
+                ]
         )
     ]),
 ])
@@ -108,6 +112,7 @@ def getKSimilarTexts(n_clicks,norma,orgao,k):
     del data['Unnamed: 0']
     idxs = data.Tipo != 'RES'
     data = (data.loc[idxs]).reset_index()
+    del data['index']
 
     X = np.load('X_LM.npy')
     X = X[idxs]
@@ -121,7 +126,10 @@ def getKSimilarTexts(n_clicks,norma,orgao,k):
         X[i,:] = Xi/(np.sum(Xi**2)**0.5)
 
     #import pdb; pdb.set_trace()
-    idx = np.where((data.Norma==norma).values * (data['Órgão de origem']==orgao).values)[0]
+    idx = np.where(data.Norma==norma)[0]
+    if len(idx) > 1:
+        if orgao is None: return []
+        idx = np.where((data.Norma==norma).values * (data['Órgão de origem']==orgao).values)[0]
     X_n = X[idx]
 
     aux = np.zeros(X.shape) + X_n
@@ -131,13 +139,20 @@ def getKSimilarTexts(n_clicks,norma,orgao,k):
     #idxs_max = idxs_max[1:]
     #import pdb; pdb.set_trace()
     out = data.loc[idxs_max]
+    out = out.reset_index()
+    del out['index']
     normas = list(out.Norma)
     ementas = list(out.Ementa)
     #import pdb; pdb.set_trace()
     similarity = (similarity + 1)/2
     similarity.sort()
     similarity = similarity[-k:][::-1]
-    return out[['Norma','Ementa','Texto Integral']].to_dict('records')
+    out['Link'] = out['Texto Integral']
+    out['Similaridade'] = (pd.Series(similarity)).round(4)
+    return out[['Norma','Similaridade','Ementa','Link']].to_dict('records')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
+#<a href="https://www.sympla.com.br/1-conferencia--em-inteligencia-artificial-ieee---cis__718476" class="boxed-btn-white" target="_blank">Registre-se Gratuitamente</a>

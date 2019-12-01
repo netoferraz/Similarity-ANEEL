@@ -4,7 +4,6 @@ import dash_html_components as html
 import dash_table
 from dash.dependencies import Input, Output, State
 import pandas as pd
-import bib
 import numpy as np
 import pickle
 from sklearn import preprocessing

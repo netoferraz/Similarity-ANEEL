@@ -106,7 +106,7 @@ def getKSimilarTexts(n_clicks,norma,orgao,k):
     if k is None: return []
 
     k = int(k)
-    #import pdb; pdb.set_trace()
+
     data = pd.read_csv('interesting_norms.csv',sep='|',encoding='utf-8')
 
     X = np.load('X_LM.npy')
@@ -147,6 +147,3 @@ def getKSimilarTexts(n_clicks,norma,orgao,k):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-#<a href="https://www.sympla.com.br/1-conferencia--em-inteligencia-artificial-ieee---cis__718476" class="boxed-btn-white" target="_blank">Registre-se Gratuitamente</a>

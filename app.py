@@ -35,44 +35,37 @@ app.layout = html.Div([
     html.Div([
         html.Header(
             children='Mecanismo de Busca de Normas Similares',
-            style={
-                'alignItems':'center',
-                'justifyContent':'center',
-                'display':'flex',
-                'fontSize':'48px',
-                'color':'#4ecca3',
-                'backgroundColor': '#393e46'
-            }
+            id='header'
         )
     ]),
 
     html.Div([
 
         html.Label('Selecione aqui a norma desejada',style={
-            'color':'#fff',
-            'fontSize':'32px'
+            'color':'#2b2b2b',
+            'fontSize':'26px'
         }),
         dcc.Dropdown(
             id = 'select-norm',
             options= normas_dict),
 
         html.Label('Selecione aqui o órgão da norma',style={
-            'color':'#fff',
-            'fontSize':'32px'}
+            'color':'#2b2b2b',
+            'fontSize':'26px'}
         ),
         dcc.Dropdown(
             id = 'select-orgao',
             options= orgaos_dict),
 
         html.Label('Indique o número de normas de output',style={
-            'color':'#fff',
-            'fontSize':'32px'}),
+            'color':'#2b2b2b',
+            'fontSize':'26px'}),
         dcc.Input(id='n_normas',type='text',value='10'),
 
         html.Button('Buscar',id='button'),
 
         html.Label('',style={
-            'color':'#fff',
+            'color':'#2b2b2b',
             'fontSize':'20px'
         }),
         dash_table.DataTable(
@@ -86,25 +79,26 @@ app.layout = html.Div([
             style_data = {
                 'whiteSpace':'normal',
                 'height':'auto',
-                'backgroundColor': '#393e46',
-                'fontSize':'26px'
+                'backgroundColor': '#eeeeee',
+                'border':'1px solid #4a5769',
+                'fontSize':'20px'
                 },
             style_table={
                 'maxHeight': '370px',
                 'maxWidth': '900px',
                 'overflowY': 'auto',
-                'color':'#fff',
+                'color':'#2b2b2b',
                 'overflowX': 'auto'},
              style_cell={'textAlign': 'left'},
              style_header={
-                'backgroundColor':'#eeeeee',
+                'backgroundColor':'#6c7e97',
                 'textAlign':'center',
                 'fontWeight':'bold',
-                'fontSize':'26px',
-                'color':'#303030'},
+                'fontSize':'22px',
+                'color':'#fff'},
             style_data_conditional=[{
                 'if': {'row_index': 'odd'},
-                'backgroundColor': '#393e46'},]
+                'backgroundColor': '#eeeeee'},]
         )
     ],
         style={

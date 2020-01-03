@@ -186,5 +186,4 @@ def get_keywords(k:int=10):
         aux.extend(keyword_text.split(sep=','))
         aux.extend(keyword_ementa.split(sep=','))
         keywords.append(','.join(list(np.unique(aux)))[1:])
-
     return keywords

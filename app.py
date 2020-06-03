@@ -66,7 +66,8 @@ app.layout = html.Div([
                 {'name':'Norma','id':'Norma'},
                 {'name':'Similaridade','id':'Similaridade'},
                 {'name':'Ementa','id':'Ementa'},
-                {'name':'Link','id':'Link'}],
+                {'name':'Link','id':'Link'},
+                {'name':'Size','id':'Size'}],
             #fixed_rows={ 'headers': True},
             data = [],
             style_data = {
@@ -143,7 +144,10 @@ def getKSimilarTexts(n_clicks,norma,orgao,k):
     similarity = similarity[-k:][::-1]
     out['Link'] = out['Texto Integral']
     out['Similaridade'] = (pd.Series(similarity)).round(4)
-    return out[['Norma','Similaridade','Ementa','Link']].to_dict('records')
+    # DEBUG: i dont have to keep this column but it helps with the
+    texts = list(out['Texto Extraído'])
+    out['Size'] = out['Texto Extraído'].apply(lambda x: len(x))
+    return out[['Norma','Similaridade','Ementa','Link','Size']].to_dict('records')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
